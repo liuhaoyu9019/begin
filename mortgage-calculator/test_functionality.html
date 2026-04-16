@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试房贷计算器功能</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .pass { background-color: #d4edda; }
+        .fail { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>房贷计算器功能测试</h1>
+    <div id="tests"></div>
+    
+    <script>
+        const tests = [
+            { name: "页面加载", test: () => typeof MortgageCalculator !== 'undefined' },
+            { name: "商业贷款输入元素", test: () => document.getElementById('loan-amount') !== null },
+            { name: "公积金贷款输入元素", test: () => document.getElementById('provident-loan-amount') !== null },
+            { name: "组合贷款输入元素", test: () => document.getElementById('combined-loan-amount') !== null },
+            { name: "标签页切换功能", test: () => document.querySelectorAll('.tab').length === 3 },
+            { name: "还款方式选择", test: () => document.querySelectorAll('input[name="repayment-method"]').length === 2 }
+        ];
+        
+        const testContainer = document.getElementById('tests');
+        let passed = 0;
+        
+        tests.forEach((testObj, index) => {
+            const div = document.createElement('div');
+            div.className = 'test';
+            
+            try {
+                const result = testObj.test();
+                div.classList.add(result ? 'pass' : 'fail');
+                div.innerHTML = `<strong>${index + 1}. ${testObj.name}:</strong> ${result ? '通过' : '失败'}`;
+                if (result) passed++;
+            } catch (error) {
+                div.classList.add('fail');
+                div.innerHTML = `<strong>${index + 1}. ${testObj.name}:</strong> 错误 - ${error.message}`;
+            }
+            
+            testContainer.appendChild(div);
+        });
+        
+        const summary = document.createElement('div');
+        summary.className = 'test';
+        summary.style.fontWeight = 'bold';
+        summary.innerHTML = `<strong>测试结果:</strong> ${passed}/${tests.length} 通过`;
+        testContainer.appendChild(summary);
+    </script>
+</body>
+</html>

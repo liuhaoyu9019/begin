@@ -7,12 +7,29 @@ class MortgageCalculator {
     }
 
     initElements() {
-        // 输入元素
+        // 输入元素 - 现在在getInputValues中动态获取
         this.loanAmount = document.getElementById('loan-amount');
         this.loanTerm = document.getElementById('loan-term');
         this.interestRate = document.getElementById('interest-rate');
         this.rateType = document.getElementById('rate-type');
         this.discountRate = document.getElementById('discount-rate');
+        
+        // 公积金贷款元素
+        this.providentLoanAmount = document.getElementById('provident-loan-amount');
+        this.providentLoanTerm = document.getElementById('provident-loan-term');
+        this.providentInterestRate = document.getElementById('provident-interest-rate');
+        this.providentRateType = document.getElementById('provident-rate-type');
+        this.providentDiscountRate = document.getElementById('provident-discount-rate');
+        
+        // 组合贷款元素
+        this.combinedLoanAmount = document.getElementById('combined-loan-amount');
+        this.combinedCommercialAmount = document.getElementById('combined-commercial-amount');
+        this.combinedProvidentAmount = document.getElementById('combined-provident-amount');
+        this.combinedLoanTerm = document.getElementById('combined-loan-term');
+        this.combinedCommercialRate = document.getElementById('combined-commercial-rate');
+        this.combinedCommercialRateType = document.getElementById('combined-commercial-rate-type');
+        this.combinedProvidentRate = document.getElementById('combined-provident-rate');
+        this.combinedProvidentRateType = document.getElementById('combined-provident-rate-type');
         
         // 还款方式
         this.repaymentMethod = document.querySelector('input[name="repayment-method"]:checked');
@@ -28,11 +45,19 @@ class MortgageCalculator {
         this.resultLoanAmount = document.getElementById('result-loan-amount');
         this.resultLoanTerm = document.getElementById('result-loan-term');
         this.resultInterestRate = document.getElementById('result-interest-rate');
+        this.resultTotalInterest = document.getElementById('result-total-interest');
+        this.resultInterestFormula = document.getElementById('result-interest-formula');
         this.resultRepaymentMethod = document.getElementById('result-repayment-method');
         this.repaymentPlan = document.getElementById('repayment-plan');
         
+        // 还款计划标题元素
+        this.repaymentPlanTitle = document.querySelector('.result-card:nth-child(2) h4');
+        
         // 按钮
         this.calculateBtn = document.getElementById('calculate-btn');
+        
+        // 当前活动标签类型
+        this.currentTab = 'commercial';
     }
 
     bindEvents() {
@@ -43,6 +68,15 @@ class MortgageCalculator {
 
         // 利率类型切换
         this.rateType.addEventListener('change', () => this.handleRateTypeChange());
+        if (this.providentRateType) {
+            this.providentRateType.addEventListener('change', () => this.handleProvidentRateTypeChange());
+        }
+        if (this.combinedCommercialRateType) {
+            this.combinedCommercialRateType.addEventListener('change', () => this.handleCombinedCommercialRateTypeChange());
+        }
+        if (this.combinedProvidentRateType) {
+            this.combinedProvidentRateType.addEventListener('change', () => this.handleCombinedProvidentRateTypeChange());
+        }
 
         // 还款方式切换
         document.querySelectorAll('input[name="repayment-method"]').forEach(radio => {
@@ -52,10 +86,18 @@ class MortgageCalculator {
             });
         });
 
-        // 输入变化时实时计算
-        const inputs = [this.loanAmount, this.loanTerm, this.interestRate, this.discountRate];
-        inputs.forEach(input => {
-            input.addEventListener('input', () => this.calculate());
+        // 输入变化时实时计算 - 所有输入元素
+        const allInputs = [
+            this.loanAmount, this.loanTerm, this.interestRate, this.discountRate,
+            this.providentLoanAmount, this.providentLoanTerm, this.providentInterestRate, this.providentDiscountRate,
+            this.combinedLoanAmount, this.combinedCommercialAmount, this.combinedProvidentAmount,
+            this.combinedLoanTerm, this.combinedCommercialRate, this.combinedProvidentRate
+        ].filter(input => input !== null); // 过滤掉可能为null的元素
+        
+        allInputs.forEach(input => {
+            if (input) {
+                input.addEventListener('input', () => this.calculate());
+            }
         });
 
         // 计算按钮
@@ -69,6 +111,7 @@ class MortgageCalculator {
 
         // 显示对应的输入区域
         const tabType = selectedTab.dataset.tab;
+        this.currentTab = tabType;
         this.inputGroups.forEach(group => {
             group.classList.remove('active');
             if (group.id === `${tabType}-inputs`) {
@@ -91,17 +134,86 @@ class MortgageCalculator {
         
         this.calculate();
     }
+    
+    handleProvidentRateTypeChange() {
+        const isCustom = this.providentRateType.value === 'custom';
+        this.providentInterestRate.disabled = !isCustom;
+        
+        if (!isCustom) {
+            // 设置为最新公积金利率
+            this.providentInterestRate.value = '3.25';
+        }
+        
+        this.calculate();
+    }
+    
+    handleCombinedCommercialRateTypeChange() {
+        const isCustom = this.combinedCommercialRateType.value === 'custom';
+        this.combinedCommercialRate.disabled = !isCustom;
+        
+        if (!isCustom) {
+            // 设置为最新基准利率
+            this.combinedCommercialRate.value = '4.2';
+        }
+        
+        this.calculate();
+    }
+    
+    handleCombinedProvidentRateTypeChange() {
+        const isCustom = this.combinedProvidentRateType.value === 'custom';
+        this.combinedProvidentRate.disabled = !isCustom;
+        
+        if (!isCustom) {
+            // 设置为最新公积金利率
+            this.combinedProvidentRate.value = '3.25';
+        }
+        
+        this.calculate();
+    }
 
     getInputValues() {
-        const loanAmount = parseFloat(this.loanAmount.value) * 10000; // 万元转元
-        const loanTerm = parseInt(this.loanTerm.value) * 12; // 年转月
-        let interestRate = parseFloat(this.interestRate.value) / 100; // 百分比转小数
-        const discount = parseFloat(this.discountRate.value);
+        let loanAmount, loanTerm, interestRate, method;
         
-        // 应用折扣
-        interestRate = interestRate * discount;
+        method = this.repaymentMethod.value;
         
-        const method = this.repaymentMethod.value;
+        if (this.currentTab === 'commercial') {
+            // 商业贷款
+            loanAmount = parseFloat(this.loanAmount.value) * 10000; // 万元转元
+            loanTerm = parseInt(this.loanTerm.value) * 12; // 年转月
+            interestRate = parseFloat(this.interestRate.value) / 100; // 百分比转小数
+            const discount = parseFloat(this.discountRate.value);
+            interestRate = interestRate * discount;
+            
+        } else if (this.currentTab === 'provident') {
+            // 公积金贷款
+            loanAmount = parseFloat(this.providentLoanAmount.value) * 10000;
+            loanTerm = parseInt(this.providentLoanTerm.value) * 12;
+            interestRate = parseFloat(this.providentInterestRate.value) / 100;
+            const discount = parseFloat(this.providentDiscountRate.value);
+            interestRate = interestRate * discount;
+            
+        } else if (this.currentTab === 'combined') {
+            // 组合贷款 - 需要特殊处理
+            const commercialAmount = parseFloat(this.combinedCommercialAmount.value) * 10000;
+            const providentAmount = parseFloat(this.combinedProvidentAmount.value) * 10000;
+            loanAmount = commercialAmount + providentAmount;
+            loanTerm = parseInt(this.combinedLoanTerm.value) * 12;
+            
+            // 计算加权平均利率
+            const commercialRate = parseFloat(this.combinedCommercialRate.value) / 100;
+            const providentRate = parseFloat(this.combinedProvidentRate.value) / 100;
+            
+            if (loanAmount > 0) {
+                interestRate = (commercialAmount * commercialRate + providentAmount * providentRate) / loanAmount;
+            } else {
+                interestRate = 0;
+            }
+        } else {
+            // 默认值
+            loanAmount = 1000000;
+            loanTerm = 240;
+            interestRate = 0.042;
+        }
         
         return {
             loanAmount,
@@ -138,15 +250,16 @@ class MortgageCalculator {
         return payments;
     }
 
-    generateRepaymentPlan(loanAmount, monthlyRate, loanTerm, method) {
+    generateRepaymentPlan(loanAmount, monthlyRate, loanTerm, method, showAll = false) {
         const plan = [];
         let remainingPrincipal = loanAmount;
+        const maxPeriods = showAll ? loanTerm : Math.min(12, loanTerm);
         
         if (method === 'equal-payment') {
             // 等额本息还款计划
             const monthlyPayment = this.calculateEqualPayment(loanAmount, monthlyRate, loanTerm);
             
-            for (let i = 1; i <= Math.min(12, loanTerm); i++) {
+            for (let i = 1; i <= maxPeriods; i++) {
                 const monthlyInterest = remainingPrincipal * monthlyRate;
                 const monthlyPrincipal = monthlyPayment - monthlyInterest;
                 remainingPrincipal -= monthlyPrincipal;
@@ -163,7 +276,7 @@ class MortgageCalculator {
             // 等额本金还款计划
             const monthlyPrincipal = loanAmount / loanTerm;
             
-            for (let i = 1; i <= Math.min(12, loanTerm); i++) {
+            for (let i = 1; i <= maxPeriods; i++) {
                 const monthlyInterest = remainingPrincipal * monthlyRate;
                 const monthlyPayment = monthlyPrincipal + monthlyInterest;
                 remainingPrincipal -= monthlyPrincipal;
@@ -234,7 +347,55 @@ class MortgageCalculator {
         this.resultLoanAmount.textContent = `${this.formatCurrency(loanAmount / 10000)} 万元`;
         this.resultLoanTerm.textContent = `${loanTerm / 12}年 (${loanTerm}期)`;
         this.resultInterestRate.textContent = `${(interestRate * 100).toFixed(2)}%`;
+        
+        // 更新总利息数值
+        if (this.resultTotalInterest) {
+            this.resultTotalInterest.textContent = `${this.formatCurrency(totalInterest)} 元`;
+        }
+        
         this.resultRepaymentMethod.textContent = method === 'equal-payment' ? '等额本息' : '等额本金';
+        
+        // 更新总利息计算公式
+        this.updateInterestFormula(method, monthlyPayment, loanTerm, loanAmount, totalInterest);
+        
+        // 更新还款计划标题
+        this.updateRepaymentPlanTitle(loanTerm);
+    }
+    
+    updateRepaymentPlanTitle(loanTerm) {
+        if (this.repaymentPlanTitle) {
+            const maxPeriods = Math.min(12, loanTerm);
+            if (loanTerm <= 12) {
+                this.repaymentPlanTitle.innerHTML = `<i class="fas fa-table"></i> 还款计划 (${loanTerm}期)`;
+            } else {
+                this.repaymentPlanTitle.innerHTML = `<i class="fas fa-table"></i> 还款计划 (前${maxPeriods}期)`;
+            }
+        }
+    }
+    
+    updateInterestFormula(method, monthlyPayment, loanTerm, loanAmount, totalInterest) {
+        let formulaText = '';
+        
+        if (method === 'equal-payment') {
+            // 等额本息计算公式
+            formulaText = '等额本息：总利息 = 月供 × 期数 - 贷款本金';
+        } else {
+            // 等额本金计算公式
+            formulaText = '等额本金：总利息 = (期数 + 1) × 贷款本金 × 月利率 ÷ 2';
+        }
+        
+        // 添加简要说明
+        formulaText += '<br><small style="color: #666; font-size: 0.85em;">';
+        if (method === 'equal-payment') {
+            formulaText += '说明：每月还款额固定，前期利息多本金少，总利息相对较高。';
+        } else {
+            formulaText += '说明：每月本金固定，利息逐月递减，总利息相对较低。';
+        }
+        formulaText += '</small>';
+        
+        if (this.resultInterestFormula) {
+            this.resultInterestFormula.innerHTML = formulaText;
+        }
     }
 
     updateRepaymentPlan(loanAmount, monthlyRate, loanTerm, method) {
@@ -258,6 +419,84 @@ class MortgageCalculator {
             
             this.repaymentPlan.appendChild(row);
         });
+        
+        // 更新显示完整还款计划按钮
+        this.updateShowAllButton(loanTerm);
+        
+        // 更新表格说明
+        this.updateTableNote(loanTerm);
+    }
+    
+    updateTableNote(loanTerm) {
+        const tableNote = document.querySelector('.table-note');
+        if (tableNote) {
+            if (loanTerm <= 12) {
+                tableNote.innerHTML = `<i class="fas fa-lightbulb"></i> 提示：这是完整的还款计划，共${loanTerm}期`;
+            } else {
+                tableNote.innerHTML = `<i class="fas fa-lightbulb"></i> 提示：完整还款计划包含${loanTerm}期，此处仅展示前12期`;
+            }
+        }
+    }
+    
+    updateShowAllButton(loanTerm) {
+        // 移除现有的按钮
+        const existingButton = document.getElementById('show-all-plan-btn');
+        if (existingButton) {
+            existingButton.remove();
+        }
+        
+        // 如果贷款期数超过12期，添加显示完整还款计划按钮
+        if (loanTerm > 12) {
+            const button = document.createElement('button');
+            button.id = 'show-all-plan-btn';
+            button.className = 'show-all-btn';
+            button.innerHTML = '<i class="fas fa-eye"></i> 显示完整还款计划';
+            
+            button.addEventListener('click', () => {
+                this.showFullRepaymentPlan();
+            });
+            
+            // 将按钮添加到还款计划表后面
+            const tableNote = document.querySelector('.table-note');
+            if (tableNote) {
+                tableNote.parentNode.insertBefore(button, tableNote.nextSibling);
+            }
+        }
+    }
+    
+    showFullRepaymentPlan() {
+        const { loanAmount, loanTerm, interestRate, method } = this.getInputValues();
+        const monthlyRate = interestRate / 12;
+        const plan = this.generateRepaymentPlan(loanAmount, monthlyRate, loanTerm, method, true);
+        
+        // 清空现有内容
+        this.repaymentPlan.innerHTML = '';
+        
+        // 添加完整的还款计划行
+        plan.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'fade-in';
+            
+            row.innerHTML = `
+                <td>第${item.period}期</td>
+                <td>${this.formatCurrency(item.payment)}</td>
+                <td>${this.formatCurrency(item.principal)}</td>
+                <td>${this.formatCurrency(item.interest)}</td>
+                <td>${this.formatCurrency(item.remaining)}</td>
+            `;
+            
+            this.repaymentPlan.appendChild(row);
+        });
+        
+        // 更新按钮文本
+        const button = document.getElementById('show-all-plan-btn');
+        if (button) {
+            button.innerHTML = '<i class="fas fa-eye-slash"></i> 显示前12期';
+            button.removeEventListener('click', this.showFullRepaymentPlan);
+            button.addEventListener('click', () => {
+                this.updateRepaymentPlan(loanAmount, monthlyRate, loanTerm, method);
+            });
+        }
     }
 
     showError(message) {

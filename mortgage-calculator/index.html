@@ -20,8 +20,8 @@
             </div>
             <div class="nav-links">
                 <a href="#calculator" class="active"><i class="fas fa-calculator"></i> 计算器</a>
-                <a href="#knowledge"><i class="fas fa-book"></i> 房贷知识</a>
-                <a href="#about"><i class="fas fa-info-circle"></i> 关于</a>
+                <a href="knowledge.html"><i class="fas fa-book"></i> 房贷知识</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> 关于</a>
             </div>
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -38,7 +38,7 @@
             <div class="stats">
                 <div class="stat-item">
                     <i class="fas fa-users"></i>
-                    <span>每日超过 <strong>88万+</strong> 用户使用</span>
+                    <span>每日超过 <strong>8万+</strong> 用户使用</span>
                 </div>
                 <div class="stat-item">
                     <i class="fas fa-check-circle"></i>
@@ -89,11 +89,36 @@
                             </label>
                             <div class="select-wrapper">
                                 <select id="loan-term">
+                                    <option value="0.5">半年 (6期)</option>
+                                    <option value="1">1年 (12期)</option>
+                                    <option value="2">2年 (24期)</option>
+                                    <option value="3">3年 (36期)</option>
+                                    <option value="4">4年 (48期)</option>
                                     <option value="5">5年 (60期)</option>
+                                    <option value="6">6年 (72期)</option>
+                                    <option value="7">7年 (84期)</option>
+                                    <option value="8">8年 (96期)</option>
+                                    <option value="9">9年 (108期)</option>
                                     <option value="10">10年 (120期)</option>
+                                    <option value="11">11年 (132期)</option>
+                                    <option value="12">12年 (144期)</option>
+                                    <option value="13">13年 (156期)</option>
+                                    <option value="14">14年 (168期)</option>
                                     <option value="15">15年 (180期)</option>
+                                    <option value="16">16年 (192期)</option>
+                                    <option value="17">17年 (204期)</option>
+                                    <option value="18">18年 (216期)</option>
+                                    <option value="19">19年 (228期)</option>
                                     <option value="20" selected>20年 (240期)</option>
+                                    <option value="21">21年 (252期)</option>
+                                    <option value="22">22年 (264期)</option>
+                                    <option value="23">23年 (276期)</option>
+                                    <option value="24">24年 (288期)</option>
                                     <option value="25">25年 (300期)</option>
+                                    <option value="26">26年 (312期)</option>
+                                    <option value="27">27年 (324期)</option>
+                                    <option value="28">28年 (336期)</option>
+                                    <option value="29">29年 (348期)</option>
                                     <option value="30">30年 (360期)</option>
                                 </select>
                                 <i class="fas fa-chevron-down"></i>
@@ -138,6 +163,209 @@
                                     <option value="0.7">7折</option>
                                 </select>
                                 <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 公积金贷款输入 -->
+                    <div class="input-group" id="provident-inputs">
+                        <div class="input-row">
+                            <label for="provident-loan-amount">
+                                <i class="fas fa-money-bill-wave"></i> 贷款金额
+                            </label>
+                            <div class="input-with-unit">
+                                <input type="number" id="provident-loan-amount" value="100" min="1" max="10000" step="1">
+                                <span class="unit">万元</span>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="provident-loan-term">
+                                <i class="fas fa-calendar-alt"></i> 贷款期限
+                            </label>
+                            <div class="select-wrapper">
+                                <select id="provident-loan-term">
+                                    <option value="0.5">半年 (6期)</option>
+                                    <option value="1">1年 (12期)</option>
+                                    <option value="2">2年 (24期)</option>
+                                    <option value="3">3年 (36期)</option>
+                                    <option value="4">4年 (48期)</option>
+                                    <option value="5">5年 (60期)</option>
+                                    <option value="6">6年 (72期)</option>
+                                    <option value="7">7年 (84期)</option>
+                                    <option value="8">8年 (96期)</option>
+                                    <option value="9">9年 (108期)</option>
+                                    <option value="10">10年 (120期)</option>
+                                    <option value="11">11年 (132期)</option>
+                                    <option value="12">12年 (144期)</option>
+                                    <option value="13">13年 (156期)</option>
+                                    <option value="14">14年 (168期)</option>
+                                    <option value="15">15年 (180期)</option>
+                                    <option value="16">16年 (192期)</option>
+                                    <option value="17">17年 (204期)</option>
+                                    <option value="18">18年 (216期)</option>
+                                    <option value="19">19年 (228期)</option>
+                                    <option value="20" selected>20年 (240期)</option>
+                                    <option value="21">21年 (252期)</option>
+                                    <option value="22">22年 (264期)</option>
+                                    <option value="23">23年 (276期)</option>
+                                    <option value="24">24年 (288期)</option>
+                                    <option value="25">25年 (300期)</option>
+                                    <option value="26">26年 (312期)</option>
+                                    <option value="27">27年 (324期)</option>
+                                    <option value="28">28年 (336期)</option>
+                                    <option value="29">29年 (348期)</option>
+                                    <option value="30">30年 (360期)</option>
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="provident-interest-rate">
+                                <i class="fas fa-percentage"></i> 贷款利率
+                            </label>
+                            <div class="rate-controls">
+                                <div class="select-wrapper">
+                                    <select id="provident-rate-type">
+                                        <option value="latest">最新公积金利率</option>
+                                        <option value="custom">手动输入</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="input-with-unit">
+                                    <input type="number" id="provident-interest-rate" value="3.25" min="1" max="20" step="0.01">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="provident-discount-rate">
+                                <i class="fas fa-tag"></i> 利率折扣
+                            </label>
+                            <div class="select-wrapper">
+                                <select id="provident-discount-rate">
+                                    <option value="1.0" selected>无折扣</option>
+                                    <option value="1.1">1.1倍</option>
+                                    <option value="1.05">1.05倍</option>
+                                    <option value="0.95">95折</option>
+                                    <option value="0.9">9折</option>
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 组合贷款输入 -->
+                    <div class="input-group" id="combined-inputs">
+                        <div class="input-row">
+                            <label for="combined-loan-amount">
+                                <i class="fas fa-money-bill-wave"></i> 贷款总额
+                            </label>
+                            <div class="input-with-unit">
+                                <input type="number" id="combined-loan-amount" value="100" min="1" max="10000" step="1">
+                                <span class="unit">万元</span>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="combined-commercial-amount">
+                                <i class="fas fa-building"></i> 商业贷款金额
+                            </label>
+                            <div class="input-with-unit">
+                                <input type="number" id="combined-commercial-amount" value="60" min="0" max="10000" step="1">
+                                <span class="unit">万元</span>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="combined-provident-amount">
+                                <i class="fas fa-university"></i> 公积金贷款金额
+                            </label>
+                            <div class="input-with-unit">
+                                <input type="number" id="combined-provident-amount" value="40" min="0" max="10000" step="1">
+                                <span class="unit">万元</span>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="combined-loan-term">
+                                <i class="fas fa-calendar-alt"></i> 贷款期限
+                            </label>
+                            <div class="select-wrapper">
+                                <select id="combined-loan-term">
+                                    <option value="0.5">半年 (6期)</option>
+                                    <option value="1">1年 (12期)</option>
+                                    <option value="2">2年 (24期)</option>
+                                    <option value="3">3年 (36期)</option>
+                                    <option value="4">4年 (48期)</option>
+                                    <option value="5">5年 (60期)</option>
+                                    <option value="6">6年 (72期)</option>
+                                    <option value="7">7年 (84期)</option>
+                                    <option value="8">8年 (96期)</option>
+                                    <option value="9">9年 (108期)</option>
+                                    <option value="10">10年 (120期)</option>
+                                    <option value="11">11年 (132期)</option>
+                                    <option value="12">12年 (144期)</option>
+                                    <option value="13">13年 (156期)</option>
+                                    <option value="14">14年 (168期)</option>
+                                    <option value="15">15年 (180期)</option>
+                                    <option value="16">16年 (192期)</option>
+                                    <option value="17">17年 (204期)</option>
+                                    <option value="18">18年 (216期)</option>
+                                    <option value="19">19年 (228期)</option>
+                                    <option value="20" selected>20年 (240期)</option>
+                                    <option value="21">21年 (252期)</option>
+                                    <option value="22">22年 (264期)</option>
+                                    <option value="23">23年 (276期)</option>
+                                    <option value="24">24年 (288期)</option>
+                                    <option value="25">25年 (300期)</option>
+                                    <option value="26">26年 (312期)</option>
+                                    <option value="27">27年 (324期)</option>
+                                    <option value="28">28年 (336期)</option>
+                                    <option value="29">29年 (348期)</option>
+                                    <option value="30">30年 (360期)</option>
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="combined-commercial-rate">
+                                <i class="fas fa-percentage"></i> 商业贷款利率
+                            </label>
+                            <div class="rate-controls">
+                                <div class="select-wrapper">
+                                    <select id="combined-commercial-rate-type">
+                                        <option value="latest">最新基准利率</option>
+                                        <option value="custom">手动输入</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="input-with-unit">
+                                    <input type="number" id="combined-commercial-rate" value="4.2" min="1" max="20" step="0.01">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <label for="combined-provident-rate">
+                                <i class="fas fa-percentage"></i> 公积金贷款利率
+                            </label>
+                            <div class="rate-controls">
+                                <div class="select-wrapper">
+                                    <select id="combined-provident-rate-type">
+                                        <option value="latest">最新公积金利率</option>
+                                        <option value="custom">手动输入</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="input-with-unit">
+                                    <input type="number" id="combined-provident-rate" value="3.25" min="1" max="20" step="0.01">
+                                    <span class="unit">%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -218,8 +446,19 @@
                                     <span id="result-interest-rate">4.20%</span>
                                 </div>
                                 <div class="result-item">
+                                    <span>总利息</span>
+                                    <span id="result-total-interest">478,131.20 元</span>
+                                </div>
+                                <div class="result-item">
                                     <span>还款方式</span>
                                     <span id="result-repayment-method">等额本息</span>
+                                </div>
+                            </div>
+                            <div class="formula-section">
+                                <h5><i class="fas fa-calculator"></i> 总利息计算公式</h5>
+                                <div id="result-interest-formula" class="formula-text">
+                                    等额本息：总利息 = 月供 × 期数 - 贷款本金
+                                    <br><small>说明：每月还款额固定，前期利息多本金少，总利息相对较高。</small>
                                 </div>
                             </div>
                         </div>
@@ -262,7 +501,7 @@
                     </div>
                     <h3>买房按揭办不下来能退首付吗？</h3>
                     <p>根据购房合同和相关法律规定，如果按揭贷款无法办理，需要根据具体情况分析。一般来说，如果是因为购房者自身原因导致贷款无法获批，可能需要承担违约责任。</p>
-                    <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    <a href="knowledge.html" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
                 </article>
 
                 <article class="knowledge-card">
@@ -271,7 +510,7 @@
                     </div>
                     <h3>等额本息 vs 等额本金</h3>
                     <p>等额本息每月还款额固定，适合收入稳定的上班族；等额本金前期还款压力大，但总利息较少，适合收入较高或有提前还款计划的人群。</p>
-                    <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    <a href="knowledge.html" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
                 </article>
 
                 <article class="knowledge-card">
@@ -280,7 +519,7 @@
                     </div>
                     <h3>公积金贷款的优势</h3>
                     <p>公积金贷款利率较低，目前首套房利率为3.25%，远低于商业贷款。同时，公积金贷款额度充足时，可以节省大量利息支出。</p>
-                    <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    <a href="knowledge.html" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
                 </article>
 
                 <article class="knowledge-card">
@@ -289,7 +528,7 @@
                     </div>
                     <h3>房贷还不上怎么办？</h3>
                     <p>如果遇到还款困难，应及时与银行沟通，申请展期或调整还款计划。避免逾期影响个人征信，严重情况可能导致房产被拍卖。</p>
-                    <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    <a href="knowledge.html" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
                 </article>
             </div>
         </section>
@@ -324,7 +563,7 @@
                     <div class="stat-card">
                         <i class="fas fa-users"></i>
                         <div>
-                            <h3>88万+</h3>
+                            <h3>8万+</h3>
                             <p>日活跃用户</p>
                         </div>
                     </div>
@@ -365,8 +604,8 @@
                     <h3>快速链接</h3>
                     <ul>
                         <li><a href="#calculator"><i class="fas fa-chevron-right"></i> 房贷计算器</a></li>
-                        <li><a href="#knowledge"><i class="fas fa-chevron-right"></i> 房贷知识</a></li>
-                        <li><a href="#about"><i class="fas fa-chevron-right"></i> 关于我们</a></li>
+                        <li><a href="knowledge.html"><i class="fas fa-chevron-right"></i> 房贷知识</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> 关于我们</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> 隐私政策</a></li>
                     </ul>
                 </div>
@@ -374,7 +613,7 @@
                     <h3>联系我们</h3>
                     <ul>
                         <li><i class="fas fa-envelope"></i> contact@mortgage-calc.com</li>
-                        <li><i class="fas fa-phone"></i> 400-123-4567</li>
+
                         <li><i class="fas fa-map-marker-alt"></i> 北京市朝阳区金融街88号</li>
                     </ul>
                 </div>
